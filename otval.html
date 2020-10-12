@@ -1,0 +1,177 @@
+<!doctype html>
+    <html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="block">
+        <script id="app">
+            
+            ﻿/* 1. Creating elements for birth day input and running the script */
+            const div = document.createElement("div");
+            p = document.createElement("p");
+            p.innerHTML = "<center>Калькулятор матрицы онлайн</center> <div class='p1'>Введите дату рождения:</div>"; 
+            div.appendChild(p); 
+
+             
+            
+            const bdday = document.createElement("select");
+
+            div.setAttribute("id", "app-menu");
+
+            for (var i = 1; i < 32; i++) {
+	            day = document.createElement("option");
+	            day.innerHTML = i;
+	            bdday.appendChild(day);
+            }
+            div.appendChild(bdday);
+
+            const bdmonth = document.createElement("select");
+
+            for (var i = 1; i < 13; i++) {
+	            month = document.createElement("option");
+	            month.innerHTML = i;
+	            bdmonth.appendChild(month);
+            }
+            div.appendChild(bdmonth);
+
+            const bdyear = document.createElement("select");
+
+            for (var i = 1900; i <= new Date().getFullYear(); i++) {
+	            year = document.createElement("option");
+	            year.innerHTML = i;
+	            if (i == new Date().getFullYear()) year.setAttribute("selected", "")
+	            bdyear.appendChild(year);
+            }
+            div.appendChild(bdyear);
+
+            const generateButton = document.createElement("button");
+            generateButton.innerHTML = "Рассчитать";
+   //         generateButton.setAttribute("class", "btn btn-outline");
+            div.appendChild(generateButton);
+            app.parentNode.appendChild(div);
+            //						Done							//
+
+            /* 2. Getting number set while running the script*/
+            generateButton.onclick = function () {
+	            // getting numbers set as solid string //		
+	            let numSet = "";
+	            numSet += bdday.value;
+	            numSet += bdmonth.value;
+	            numSet += bdyear.value;
+	            // 										//
+
+	            // Additional numbers //
+	            // 1
+	            let addN1 = 0;
+	            numSet.split("").forEach((num) => {addN1 += Number(num)});
+
+	            // 2
+	            let addN2 = 0;
+	            addN1.toString().split("").forEach((num) => {addN2 += Number(num)});
+
+	            // 3
+	            let addN3 = addN1 - Number(numSet[0]) * 2;
+
+	            // 4
+	            let addN4 = 0;
+	            addN3.toString().split("").forEach((num) => {addN4 += Number(num)});
+	            // 					//
+
+	            // Getting set of additional numbers //
+	            let addSet = "";
+	            addSet += addN1;
+	            addSet += addN2;
+	            addSet += addN3;
+	            addSet += addN4;
+	            //				//
+	            let outputSet = numSet + addSet;
+	            /* 3. Generating the output table */
+	            // The Pythagor set is like:
+	            //  1 | 4 | 7
+	            //  2 | 5 | 8
+	            //  3 | 6 | 9
+	            // We need to check how many of this numbers are in our sets and write to corresponding unit.
+
+	            // 1 Generating the table
+	            function generateTable()
+	            {
+		            table = document.createElement("table");
+		            table.setAttribute("border", "1");
+		            table.setAttribute("id", "output");
+		            for (let i = 0; i < 3; i++)
+		            {
+			            tr = document.createElement("tr");
+			            tr.setAttribute("class", i+1)
+			            for (let j = 0; j < 3; j++)
+			            {
+				            td = document.createElement("td");
+				            td.setAttribute("class", j+1);
+
+
+				            tr.appendChild(td);
+			            }
+			            table.appendChild(tr);
+		            }
+		            
+		            div.appendChild(table);
+	            }
+
+	            if (typeof(output) === "undefined" ) {
+		            generateTable();
+	            } else {
+		            div.removeChild(document.querySelector("#output")); 
+		            generateTable();
+	            }
+	            
+
+	            // 2 Writing to the table
+	            outputSet.split("").forEach(
+		            (num) => {
+			            switch (num) {
+			            case "1": document.querySelector("#output > tr.\\31 > td.\\31").innerHTML += num;break;
+			            case "4": document.querySelector("#output > tr.\\31 > td.\\32").innerHTML += num;break;
+			            case "7": document.querySelector("#output > tr.\\31 > td.\\33").innerHTML += num;break;
+			            case "2": document.querySelector("#output > tr.\\32 > td.\\31").innerHTML += num;break;
+			            case "5": document.querySelector("#output > tr.\\32 > td.\\32").innerHTML += num;break;
+			            case "8": document.querySelector("#output > tr.\\32 > td.\\33").innerHTML += num;break;
+			            case "3": document.querySelector("#output > tr.\\33 > td.\\31").innerHTML += num;break;
+			            case "6": document.querySelector("#output > tr.\\33 > td.\\32").innerHTML += num;break;
+			            case "9": document.querySelector("#output > tr.\\33 > td.\\33").innerHTML += num;break;
+			            }
+                        
+		            });
+                for(var i=0; i<3; i++) {
+                    for(var j=0; j<3; j++) {
+                        if(output.rows[i].cells[j].innerHTML=="") output.rows[i].cells[j].innerHTML = "−";
+                    } 
+                }   
+            }
+        </script>
+    
+        <h3>Цифр нет</h3>
+        <p>Это означает, что качество, за которое они отвечают, отсутствует у человека;</p>
+
+        <h3>Одна цифра</h3>
+        <p>Качество очень слабо развито, что говорит о необходимости развивать его и совершенствовать;</p>
+
+        <h3>Две цифры</h3>
+        <p>Считается, что качество дано в норме, т.е. оно развито, но не доминирует над другими, при желании можно заняться его совершенствованием;</p>
+
+        <h3>Три цифры</h3>
+        <p>Это особый знак, человек включает это качество экстренно, случайно, вдруг;</p>
+
+        <h3>Четыре цифры</h3>
+        <p>Качество развито сильно;</p>
+
+        <h3>Пять цифр</h3>
+        <p>Качество развито максимально сильно, предел!</p>
+
+        <h3>Шесть и более цифр</h3>
+        <p>Наступает перегрузка качества, когда оно начинает меняться на противоположное, т.е. из сильного превращается в слабое;</p>
+        </div>
+        
+    </body>
+</html>
